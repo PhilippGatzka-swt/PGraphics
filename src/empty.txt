@@ -1,0 +1,114 @@
+public class Label extends Node {
+    private String text;
+    private Color color;
+    private Font font;
+    private Alignment alignment = Alignment.CENTER;
+    private int[] padding = new int[]{0, 0, 0, 0};
+
+    public Label(int x, int y, int width, int height) {
+        super(x, y, width, height);
+    }
+
+    public Label(int x, int y, int width, int height, String text, Font font, Color color) {
+        super(x, y, width, height);
+        this.text = text;
+        this.font = font;
+        this.color = color;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public void setFont(Font font) {
+        this.font = font;
+    }
+
+    @Override
+    public void render(Graphics2D g) {
+        g.setFont(font);
+        g.setColor(color);
+        int stringWidth = g.getFontMetrics().stringWidth(text);
+        int stringHeight = g.getFont().getSize();
+        int _x = 0;
+        int _y = 0;
+        int centeredX = width / 2 + x - stringWidth / 2;
+        int centeredY = height / 2 + y + stringHeight / 2;
+        int leftX = x + padding[0];
+        int rightX = width + x - stringWidth - padding[1];
+        int topY = y + stringHeight - 2 + padding[2];
+        int bottomY = height + y - padding[3];
+        switch (alignment) {
+            case CENTER:
+                _x = centeredX;
+                _y = centeredY;
+                break;
+            case RIGHT_CENTER:
+                _x = rightX;
+                _y = centeredY;
+                break;
+            case RIGHT_TOP:
+                _x = rightX;
+                _y = topY;
+                break;
+            case RIGHT_BOTTOM:
+                _x = rightX;
+                _y = bottomY;
+                break;
+            case LEFT_CENTER:
+                _x = leftX;
+                _y = centeredY;
+                break;
+            case LEFT_TOP:
+                _x = leftX;
+                _y = topY;
+                break;
+            case LEFT_BOTTOM:
+                _x = leftX;
+                _y = bottomY;
+                break;
+            case TOP_CENTER:
+                _x = centeredX;
+                _y = topY;
+                break;
+            case BOTTOM_CENTER:
+                _x = centeredX;
+                _y = bottomY;
+                break;
+        }
+        g.drawString(text, _x, _y);
+    }
+
+    @Override
+    public void update() {
+        // Does nothing so far
+    }
+
+    public void setTextAlignment(Alignment alignment) {
+        this.alignment = alignment;
+    }
+
+    public enum Alignment {
+        CENTER,
+        RIGHT_CENTER,
+        RIGHT_TOP,
+        RIGHT_BOTTOM,
+        LEFT_CENTER,
+        LEFT_TOP,
+        LEFT_BOTTOM,
+        TOP_CENTER,
+        BOTTOM_CENTER
+    }
+
+    public void setPadding(int left, int right, int top, int bottom) {
+        padding[0] = left;
+        padding[1] = right;
+        padding[2] = top;
+        padding[3] = bottom;
+    }
+
+}
